@@ -50,7 +50,7 @@ bookstore
 - assignment.md中是作业的说明
 - 每次实现了一个功能，都需要check上方的功能
 - 如果有需要下载的包，卸载requirements2.txt中，不全的话请其他创作者补充(^▽^)
-- book_lx.db文件过大，每次git push的时候一定要把该文件删除后再上传
+- book_lx.db文件过大，每次git push的时候一定要把该文件删除后再上传（或者在IDE中选择不上传该文件）
 - 每次开发之前，都要检查仓库的更新情况，然后在本地拉最新仓库。<span style="color: red;">***记得pull request！！！</span>***
 ```shell
   git clone <your_link> #下载仓库
