@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>用户认证测试</title>
+</head>
+<body>
+    <h1>用户认证测试</h1>
+
+    <h2>注册</h2>
+    <form id="register-form">
+        <label for="register-username">用户名:</label>
+        <input type="text" id="register-username" name="user_id" required>
+        <br>
+        <label for="register-password">密码:</label>
+        <input type="password" id="register-password" name="password" required>
+        <br>
+        <button type="submit">注册</button>
+    </form>
+
+    <h2>登录</h2>
+    <form id="login-form">
+        <label for="login-username">用户名:</label>
+        <input type="text" id="login-username" name="user_id" required>
+        <br>
+        <label for "login-password">密码:</label>
+        <input type="password" id="login-password" name="password" required>
+        <br>
+        <button type="submit">登录</button>
+    </form>
+
+    <h2>注销</h2>
+    <form id="unregister-form">
+        <label for="unregister-username">用户名:</label>
+        <input type="text" id="unregister-username" name="user_id" required>
+        <br>
+        <label for="unregister-password">密码:</label>
+        <input type="password" id="unregister-password" name="password" required>
+        <br>
+        <button type="submit">注销</button>
+    </form>
+
+    <h2>更改密码</h2>
+    <form id="change-password-form">
+        <label for="change-password-username">用户名:</label>
+        <input type="text" id="change-password-username" name="user_id" required>
+        <br>
+        <label for="change-password-old">旧密码:</label>
+        <input type="password" id="change-password-old" name="oldPassword" required>
+        <br>
+        <label for="change-password-new">新密码:</label>
+        <input type="password" id="change-password-new" name="newPassword" required>
+        <br>
+        <button type="submit">更改密码</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        // 注册表单提交事件
+        document.getElementById("register-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const username = document.getElementById("register-username").value;
+            const password = document.getElementById("register-password").value;
+
+            fetch("/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: username,
+                    password: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").textContent = data.message;
+            });
+        });
+
+        // 登录表单提交事件
+        document.getElementById("login-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const username = document.getElementById("login-username").value;
+            const password = document.getElementById("login-password").value;
+
+            fetch("/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: username,
+                    password: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").textContent = data.message;
+            });
+        });
+
+        // 注销表单提交事件
+        document.getElementById("unregister-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const username = document.getElementById("unregister-username").value;
+            const password = document.getElementById("unregister-password").value;
+
+            fetch("/auth/unregister", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: username,
+                    password: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").textContent = data.message;
+            });
+        });
+
+        // 更改密码表单提交事件
+        document.getElementById("change-password-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const username = document.getElementById("change-password-username").value;
+            const oldPassword = document.getElementById("change-password-old").value;
+            const newPassword = document.getElementById("change-password-new").value;
+
+            fetch("/auth/password", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: username,
+                    oldPassword: oldPassword,
+                    newPassword: newPassword
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").textContent = data.message;
+            });
+        });
+    </script>
+</body>
+</html>
