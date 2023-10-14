@@ -33,12 +33,39 @@ bookstore
 
 - [ ] **4)实现后续的流程 :发货 -> 收货**
 
-- [ ] **5)搜索图书**
+- [x] **5)搜索图书**
 
 用户可以通过关键字搜索，参数化的搜索方式；
 如搜索范围包括，题目，标签，目录，内容；全站搜索或是当前店铺搜索。
 如果显示结果较大，需要分页
 (使用全文索引优化查找)
+
+**这个功能很大概率还要后期根据数据库的结构调整，目前店铺的数据格式为：**
+```shell
+{
+                "store_id": "store1",
+                "book_info": "Book Info 1",
+                "stock_level": 100,
+                'id': "Book1",
+                'title': "Book1",
+                'author': "",
+                'publisher': "",
+                'original_title': "",
+                'translator': "",
+                'pub_year': "",
+                'pages': "",
+                'price': "",
+                'binding': "",
+                'isbn': "",
+                'author_intro': "",
+                'book_intro': "",
+                'content': "",
+                'tags': "",
+                'picture': ""
+            },
+``` 
+**负责3功能的同学在设计store数据库的时候如果有更改务必要提醒一下**
+
 
 - [ ] **6)订单状态，订单查询和取消定单**
 
