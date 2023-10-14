@@ -5,7 +5,6 @@ import pytest
 from fe.access import auth
 from fe import conf
 
-
 class TestLogin:
     @pytest.fixture(autouse=True)
     def pre_run_initialization(self):
