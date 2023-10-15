@@ -352,7 +352,7 @@ class User:
 # print(message)
 #
 #
-user = User()
+# user = User()
 
 # # Define user ID, password, and terminal
 # user_id = "user1"
@@ -366,3 +366,7 @@ user = User()
 # else:
 #     print("Login failed with code:", login_code)
 #     print("Message:", login_message)
+# user = User()
+# user_id = "test_user"
+# password = "test_password"
+# code, message = user.unregister(user_id, password)

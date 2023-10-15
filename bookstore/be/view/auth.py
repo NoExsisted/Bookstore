@@ -1,16 +1,19 @@
 import sys
 import os
-from flask import Blueprint
+from flask import Blueprint, Flask
 from flask import request
 from flask import jsonify
 from be.model import user
+from pymongo import MongoClient
 
-# 将项目根目录添加到 sys.path
-project_root = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(project_root, 'be'))
 
-bp_auth = Blueprint("auth", __name__, url_prefix="/auth")
-@bp_auth.route("/login", methods=["POST"])
+client = MongoClient('localhost', 27017)
+db = client.bookstore
+
+app = Flask(__name__)
+
+# bp_auth = Blueprint("auth", __name__, url_prefix="/auth")
+@app.route("/auth/login", methods=["POST"])
 def login():
     user_id = request.json.get("user_id", "")
     password = request.json.get("password", "")
@@ -22,7 +25,7 @@ def login():
     return jsonify({"message": message, "token": token}), code
 
 
-@bp_auth.route("/logout", methods=["POST"])
+@app.route("/auth/logout", methods=["POST"])
 def logout():
     user_id: str = request.json.get("user_id")
     token: str = request.headers.get("token")
@@ -31,7 +34,7 @@ def logout():
     return jsonify({"message": message}), code
 
 
-@bp_auth.route("/register", methods=["POST"])
+@app.route("/auth/register", methods=["POST"])
 def register():
     user_id = request.json.get("user_id", "")
     password = request.json.get("password", "")
@@ -40,7 +43,7 @@ def register():
     return jsonify({"message": message}), code
 
 
-@bp_auth.route("/unregister", methods=["POST"])
+@app.route("/auth/unregister", methods=["POST"])
 def unregister():
     user_id = request.json.get("user_id", "")
     password = request.json.get("password", "")
@@ -49,7 +52,7 @@ def unregister():
     return jsonify({"message": message}), code
 
 
-@bp_auth.route("/password", methods=["POST"])
+@app.route("/auth/password", methods=["POST"])
 def change_password():
     user_id = request.json.get("user_id", "")
     old_password = request.json.get("oldPassword", "")

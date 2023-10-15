@@ -29,12 +29,13 @@
             <li>
                 <h2>{{ book.title }}</h2>
                 <p>Author: {{ book.author }}</p>
-                <p>Store: {{ book.store_id }}</p>
             </li>
         {% endfor %}
     </ul>
     <div class="pagination">
         {{ pagination.links }}
+        <p>Total Pages: {{ pagination.pages }}</p>
+        <p>Current Page: {{ pagination.page }}</p>
     </div>
     <script>
         // JavaScript to toggle visibility of the store input field

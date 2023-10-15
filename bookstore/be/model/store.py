@@ -66,9 +66,9 @@ from pymongo import MongoClient
 
 
 class Store:
-    def __init__(self):
-        self.client = MongoClient('localhost', 27017)
-        self.db = self.client['bookstore']
+    def __init__(self, db_host, db_port, db_name):
+        self.client = MongoClient(db_host, db_port)
+        self.db = self.client[db_name]
         self.init_collections()
 
     def init_collections(self):
@@ -233,11 +233,10 @@ def get_db_client():
     return database_instance.get_db_client()
 
 
-# if __name__ == "__main__":
-#     db_host = "localhost"
-#     db_port = 27017
-#     db_name = "bookstore"
-#
-#     init_database(db_host, db_port, db_name)
-#
-#     client = get_db_client()
+if __name__ == "__main__":
+    db_host = "localhost"
+    db_port = 27017
+    db_name = "bookstore"
+
+    init_database(db_host, db_port, db_name)
+    client = get_db_client()

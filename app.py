@@ -39,8 +39,8 @@ def get_books(page, search_query, search_scopes, store_search):
     total_results = db.books.count_documents(query)
 
     # 分页查询
-    books = db.books.find(query).skip(page * RESULTS_PER_PAGE).limit(RESULTS_PER_PAGE)
-
+    # books = db.books.find(query).skip(page * RESULTS_PER_PAGE).limit(RESULTS_PER_PAGE)
+    books = db.books.find(query)
     return books, total_results
 
 
@@ -99,15 +99,10 @@ def index():
         result_books.extend(books)
 
     total_results = len(result_books)
-
-    # 分页逻辑，根据搜索结果进行分页
-    start_idx = page * RESULTS_PER_PAGE
-    end_idx = start_idx + RESULTS_PER_PAGE
-    books = result_books[start_idx:end_idx]
-
+    # print(total_results)
     pagination = Pagination(page=page, total=total_results, search=False, per_page=RESULTS_PER_PAGE,
                             css_framework='bootstrap4')
-    return render_template('index.html', books=books, pagination=pagination, search_query=search_query,
+    return render_template('index.html', books=result_books, pagination=pagination, search_query=search_query,
                            search_scopes=search_scopes, store_search=store_search)
 
 

@@ -29,7 +29,7 @@ def test_search_content(client):
     assert response4.status_code == 200
 
 def test_pagination(client):
-    response6 = client.get('/?search_query=book&search_scopes=title&search_scopes=tags&search_scopes=book_intro&search_scopes=content&store_search=store&store_search_input=store1')
+    response6 = client.get('/?search_query=book&search_scopes=title&search_scopes=tags&search_scopes=book_intro&search_scopes=content&store_search=store&store_search_input=store')
     assert response6.status_code == 200
 
 if __name__ == '__main__':
