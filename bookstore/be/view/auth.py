@@ -1,11 +1,15 @@
+import sys
+import os
 from flask import Blueprint
 from flask import request
 from flask import jsonify
 from be.model import user
 
+# 将项目根目录添加到 sys.path
+project_root = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(project_root, 'be'))
+
 bp_auth = Blueprint("auth", __name__, url_prefix="/auth")
-
-
 @bp_auth.route("/login", methods=["POST"])
 def login():
     user_id = request.json.get("user_id", "")

@@ -35,17 +35,20 @@
 #             return False
 #         else:
 #             return True
+
+
 from pymongo import MongoClient
+from be.model import store
+
 
 class DBConn:
-    # def __init__(self, db_host, db_port, db_name):
-    #     self.client = MongoClient(db_host, db_port)
-    #     self.db = self.client[db_name]
-
     def __init__(self):
+        # self.conn = store.get_db_client()
         self.client = MongoClient('localhost', 27017)
         self.db = self.client['bookstore']
-        self.init_collections()
+    # def __init__(self):
+    #     self.client = MongoClient('localhost', 27017)
+    #     self.db = self.client['bookstore']
 
     def user_id_exist(self, user_id):
         users = self.db["users"]

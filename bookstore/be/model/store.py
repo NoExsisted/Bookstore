@@ -66,10 +66,6 @@ from pymongo import MongoClient
 
 
 class Store:
-    # def __init__(self, db_host, db_port, db_name):
-        # self.client = MongoClient(db_host, db_port)
-        # self.db = self.client[db_name]
-        # self.init_collections()
     def __init__(self):
         self.client = MongoClient('localhost', 27017)
         self.db = self.client['bookstore']
@@ -82,7 +78,6 @@ class Store:
         self.stores = self.db["stores"]
         self.new_orders = self.db["new_orders"]
         self.new_order_details = self.db["new_order_details"]
-        # 定义这些集合的文档结构
 
     def get_db_client(self) -> MongoClient:
         return self.client
@@ -94,7 +89,6 @@ class Store:
         self.init_stores_collection()
         self.init_new_orders_collection()
         self.init_new_order_details_collection()
-        # 根据需要定义和初始化其他集合
 
     def init_users_collection(self):
         # 用户数据示例
@@ -240,12 +234,10 @@ def get_db_client():
 
 
 # if __name__ == "__main__":
-#     # 配置MongoDB连接参数
 #     db_host = "localhost"
 #     db_port = 27017
 #     db_name = "bookstore"
 #
 #     init_database(db_host, db_port, db_name)
 #
-#     # 根据需要执行数据库操作
 #     client = get_db_client()

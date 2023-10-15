@@ -180,8 +180,9 @@ import jwt
 import time
 import logging
 from pymongo import MongoClient
-# import error
-from be.model import error
+# from be.model import error
+# from be.model import db_conn
+import error
 
 class User:
     token_lifetime: int = 3600  # 3600 seconds
@@ -189,6 +190,7 @@ class User:
     def __init__(self):
         self.client = MongoClient('localhost', 27017)
         self.db = self.client['bookstore']
+        # db_conn.DBConn.__init__(self)
 
     def __check_token(self, user_id, db_token, token) -> bool:
         try:
@@ -337,23 +339,30 @@ class User:
         return 200, "ok"
 
 
-#
+
 # user = User()
-#
-#
 # # 指定用户的用户名和密码
 # user_id = "user"
 # password = "password"
-# # # 先注册用户
-# # code, message = user.register(user_id, password)
-# #
-# # # 确保注册成功
-# # assert code == 200, message
-# #
-# code, message, token = user.login(user_id, password)
+# # 先注册用户
+# code, message = user.login('user1', 'password1', 'terminal1')
 #
-# # 验证登录结果
+# # 验证结果
 # print(code)
 # print(message)
 #
+#
+user = User()
 
+# # Define user ID, password, and terminal
+# user_id = "user1"
+# password = "password"
+# terminal = "terminal"
+#
+# login_code, login_message, token = user.login(user_id, password, terminal)
+# if login_code == 200:
+#     print("Login successful")
+#     print("Token:", token)
+# else:
+#     print("Login failed with code:", login_code)
+#     print("Message:", login_message)
