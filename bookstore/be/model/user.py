@@ -180,7 +180,8 @@ import jwt
 import time
 import logging
 from pymongo import MongoClient
-import error
+# import error
+from be.model import error
 
 class User:
     token_lifetime: int = 3600  # 3600 seconds
@@ -256,32 +257,32 @@ class User:
             return error.error_authorization_fail()
         return 200, "ok"
 
-    # def login(self, user_id: str, password: str, terminal: str) -> (int, str, str):
-    #     token = ""
-    #     try:
-    #         code, message = self.check_password(user_id, password)
-    #         if code != 200:
-    #             return code, message, ""
-    #
-    #         token = self.jwt_encode(user_id, terminal)
-    #         self.db.users.update_one({"user_id": user_id}, {"$set": {"token": token, "terminal": terminal}})
-    #     except Exception as e:
-    #         return 528, "{}".format(str(e)), ""
-    #     return 200, "ok", token
-
-    def login(self, user_id: str, password: str) -> (int, str, str):
+    def login(self, user_id: str, password: str, terminal: str) -> (int, str, str):
         token = ""
         try:
             code, message = self.check_password(user_id, password)
             if code != 200:
                 return code, message, ""
 
-            terminal = "terminal_{}".format(str(time.time()))  # 自动生成终端信息
             token = self.jwt_encode(user_id, terminal)
             self.db.users.update_one({"user_id": user_id}, {"$set": {"token": token, "terminal": terminal}})
         except Exception as e:
             return 528, "{}".format(str(e)), ""
         return 200, "ok", token
+
+    # def login(self, user_id: str, password: str) -> (int, str, str):
+    #     token = ""
+    #     try:
+    #         code, message = self.check_password(user_id, password)
+    #         if code != 200:
+    #             return code, message, ""
+    #
+    #         terminal = "terminal_{}".format(str(time.time()))  # 自动生成终端信息
+    #         token = self.jwt_encode(user_id, terminal)
+    #         self.db.users.update_one({"user_id": user_id}, {"$set": {"token": token, "terminal": terminal}})
+    #     except Exception as e:
+    #         return 528, "{}".format(str(e)), ""
+    #     return 200, "ok", token
 
     # def logout(self, user_id: str, token: str) -> bool:
     #     try:
@@ -336,23 +337,23 @@ class User:
         return 200, "ok"
 
 
-
-user = User()
-
-
-# 指定用户的用户名和密码
-user_id = "user"
-password = "password"
-# # 先注册用户
-# code, message = user.register(user_id, password)
 #
-# # 确保注册成功
-# assert code == 200, message
+# user = User()
 #
-code, message, token = user.login(user_id, password)
-
-# 验证登录结果
-print(code)
-print(message)
-
+#
+# # 指定用户的用户名和密码
+# user_id = "user"
+# password = "password"
+# # # 先注册用户
+# # code, message = user.register(user_id, password)
+# #
+# # # 确保注册成功
+# # assert code == 200, message
+# #
+# code, message, token = user.login(user_id, password)
+#
+# # 验证登录结果
+# print(code)
+# print(message)
+#
 

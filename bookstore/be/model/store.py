@@ -66,14 +66,14 @@ from pymongo import MongoClient
 
 
 class Store:
-    def __init__(self, db_host, db_port, db_name):
-        self.client = MongoClient(db_host, db_port)
-        self.db = self.client[db_name]
+    # def __init__(self, db_host, db_port, db_name):
+        # self.client = MongoClient(db_host, db_port)
+        # self.db = self.client[db_name]
+        # self.init_collections()
+    def __init__(self):
+        self.client = MongoClient('localhost', 27017)
+        self.db = self.client['bookstore']
         self.init_collections()
-    # def __init__(self):
-    #     self.client = MongoClient('localhost', 27017)
-    #     self.db = self.client['bookstore']
-    #     self.init_collections()
 
     def init_collections(self):
         # 初始化MongoDB集合，包括用户、用户商店、商店、新订单、新订单明细
@@ -239,13 +239,13 @@ def get_db_client():
     return database_instance.get_db_client()
 
 
-if __name__ == "__main__":
-    # 配置MongoDB连接参数
-    db_host = "localhost"
-    db_port = 27017
-    db_name = "bookstore"
-
-    init_database(db_host, db_port, db_name)
-
-    # 根据需要执行数据库操作
-    client = get_db_client()
+# if __name__ == "__main__":
+#     # 配置MongoDB连接参数
+#     db_host = "localhost"
+#     db_port = 27017
+#     db_name = "bookstore"
+#
+#     init_database(db_host, db_port, db_name)
+#
+#     # 根据需要执行数据库操作
+#     client = get_db_client()
