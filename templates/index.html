@@ -24,6 +24,7 @@
         <input type="text" name="store_search_input" id="store_search_input" placeholder="Enter Store Name" value="{{ store_search }}">
         <input type="submit" value="Search">
     </form>
+
     <ul>
         {% for book in books %}
             <li>
@@ -32,11 +33,11 @@
             </li>
         {% endfor %}
     </ul>
-    <div class="pagination">
+
+    <div class="paginate">
         {{ pagination.links }}
-        <p>Total Pages: {{ pagination.pages }}</p>
-        <p>Current Page: {{ pagination.page }}</p>
     </div>
+
     <script>
         // JavaScript to toggle visibility of the store input field
         const storeSelect = document.querySelector('select[name="store_search"]');

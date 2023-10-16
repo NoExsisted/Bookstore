@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from pymongo import MongoClient
+from flask_paginate import get_page_parameter
 from flask_paginate import Pagination
 
 app = Flask(__name__)
@@ -11,7 +12,7 @@ db = client['bookstore']
 # 每页显示的结果数量
 RESULTS_PER_PAGE = 10
 
-def get_books(page, search_query, search_scopes, store_search):
+def get_books(search_query, search_scopes, store_search):
     # 构建查询条件
     query = {}
     if search_query:
@@ -38,22 +39,17 @@ def get_books(page, search_query, search_scopes, store_search):
     # 获取总结果数
     total_results = db.books.count_documents(query)
 
-    # 分页查询
-    # books = db.books.find(query).skip(page * RESULTS_PER_PAGE).limit(RESULTS_PER_PAGE)
     books = db.books.find(query)
     return books, total_results
 
 
-# app.py
-
-# ...
-
 @app.route('/')
 def index():
-    page = int(request.args.get('page', 0))
     search_query = request.args.get('search_query', '')
     search_scopes = request.args.getlist('search_scopes')
     store_search = request.args.get('store_search_input', '')
+
+    page = request.args.get(get_page_parameter(), type=int, default=1)
 
     # 初始化结果列表
     result_books = []
@@ -95,16 +91,38 @@ def index():
             result_books.extend(books)
     else:
         # 如果不是店铺搜索，按照之前的逻辑进行普通搜索
-        books, total_results = get_books(page, search_query, search_scopes, store_search)
+        books, total_results = get_books(search_query, search_scopes, store_search)
         result_books.extend(books)
 
     total_results = len(result_books)
-    # print(total_results)
-    pagination = Pagination(page=page, total=total_results, search=False, per_page=RESULTS_PER_PAGE,
-                            css_framework='bootstrap4')
-    return render_template('index.html', books=result_books, pagination=pagination, search_query=search_query,
-                           search_scopes=search_scopes, store_search=store_search)
+    print(total_results)
 
+    # if total_results == 0:
+    #     return not_found_error(0)
+    # else:
+    #     return render_template('index.html', books=result_books, search_query=search_query,
+    #                        search_scopes=search_scopes, store_search=store_search)
+    # Calculate the starting and ending index for the current page
+    start_idx = (page - 1) * RESULTS_PER_PAGE
+    end_idx = start_idx + RESULTS_PER_PAGE
+
+    # Slice the result_books to get the books for the current page
+    books_for_current_page = result_books[start_idx:end_idx]
+
+    if total_results == 0:
+        return not_found_error(0)
+    else:
+        # Use the Flask-Paginate extension to create a pagination object
+        pagination = Pagination(page=page, total=total_results, search=False, per_page=RESULTS_PER_PAGE,
+                                css_framework='bootstrap4')
+
+        return render_template('index.html', books=books_for_current_page, pagination=pagination,
+                               search_query=search_query,
+                               search_scopes=search_scopes, store_search=store_search)
+
+@app.errorhandler(404)
+def not_found_error(e):
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(debug=False)

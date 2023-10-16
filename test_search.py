@@ -17,11 +17,11 @@ def test_search_books_title(client):
     assert response2.status_code == 200
 
 def test_search_books_tags(client):
-    response3 = client.get('/?search_query=book&search_scopes=book_intro&store_search=&store_search_input=')
+    response3 = client.get('/?search_query=book&search_scopes=tags&&store_search=&store_search_input=')
     assert response3.status_code == 200
 
 def test_search_books_intro(client):
-    response4 = client.get('/?search_query=book&search_scopes=tags&store_search=&store_search_input=')
+    response4 = client.get('/?search_query=book&search_scopes=book_intro&store_search=&store_search_input=')
     assert response4.status_code == 200
 
 def test_search_content(client):
@@ -31,6 +31,10 @@ def test_search_content(client):
 def test_pagination(client):
     response6 = client.get('/?search_query=book&search_scopes=title&search_scopes=tags&search_scopes=book_intro&search_scopes=content&store_search=store&store_search_input=store')
     assert response6.status_code == 200
+
+def test_pagination(client):
+    response6 = client.get('/?search_query=唐小卉&search_scopes=title&store_search=store&store_search_input=store1')
+    assert response6.status_code == 404
 
 if __name__ == '__main__':
     pytest.main()
