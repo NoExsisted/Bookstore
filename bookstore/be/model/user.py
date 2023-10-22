@@ -180,9 +180,9 @@ import jwt
 import time
 import logging
 from pymongo import MongoClient
-# from be.model import error
-# from be.model import db_conn
-import error
+from be.model import error
+from be.model import db_conn
+# import error
 
 class User:
     token_lifetime: int = 3600  # 3600 seconds
