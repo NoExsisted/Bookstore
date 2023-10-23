@@ -97,22 +97,14 @@ def index():
     total_results = len(result_books)
     print(total_results)
 
-    # if total_results == 0:
-    #     return not_found_error(0)
-    # else:
-    #     return render_template('index.html', books=result_books, search_query=search_query,
-    #                        search_scopes=search_scopes, store_search=store_search)
-    # Calculate the starting and ending index for the current page
     start_idx = (page - 1) * RESULTS_PER_PAGE
     end_idx = start_idx + RESULTS_PER_PAGE
 
-    # Slice the result_books to get the books for the current page
     books_for_current_page = result_books[start_idx:end_idx]
 
     if total_results == 0:
         return not_found_error(0)
     else:
-        # Use the Flask-Paginate extension to create a pagination object
         pagination = Pagination(page=page, total=total_results, search=False, per_page=RESULTS_PER_PAGE,
                                 css_framework='bootstrap4')
 
