@@ -191,7 +191,7 @@
 
 import sqlite3 as sqlite
 import uuid
-import tojson
+import json
 import logging
 # from be.model import db_conn
 # from be.model import error

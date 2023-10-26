@@ -46,9 +46,6 @@ class DBConn:
         # self.conn = store.get_db_client()
         self.client = MongoClient('localhost', 27017)
         self.db = self.client['bookstore']
-    # def __init__(self):
-    #     self.client = MongoClient('localhost', 27017)
-    #     self.db = self.client['bookstore']
 
     def user_id_exist(self, user_id):
         users = self.db["users"]
