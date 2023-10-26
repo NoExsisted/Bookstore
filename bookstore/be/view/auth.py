@@ -7,12 +7,12 @@ from be.model import user
 from pymongo import MongoClient
 
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('127.0.0.1', 27017)
 db = client.bookstore
 
 app = Flask(__name__)
 
-# bp_auth = Blueprint("auth", __name__, url_prefix="/auth")
+bp_auth = Blueprint("auth", __name__, url_prefix="/auth")
 @app.route("/auth/login", methods=["POST"])
 def login():
     user_id = request.json.get("user_id", "")
@@ -62,3 +62,6 @@ def change_password():
         user_id=user_id, old_password=old_password, new_password=new_password
     )
     return jsonify({"message": message}), code
+
+# if __name__ == "__main__":
+#     app.run(host='127.0.0.1', port=5000)

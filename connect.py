@@ -191,19 +191,6 @@ class User:
     #         return 528, "{}".format(str(e)), ""
     #     return 200, "ok", token
 
-    # def logout(self, user_id: str, token: str) -> bool:
-    #     try:
-    #         code, message = self.check_token(user_id, token)
-    #         if code != 200:
-    #             return code, message
-    #
-    #         terminal = "terminal_{}".format(str(time.time()))
-    #         dummy_token = self.jwt_encode(user_id, terminal)
-    #
-    #         self.db.users.update_one({"user_id": user_id}, {"$set": {"token": dummy_token, "terminal": terminal}})
-    #     except Exception as e:
-    #         return 528, "{}".format(str(e))
-    #     return 200, "ok"
     def logout(self, user_id: str, token: str) -> bool:
         try:
             code, message = self.check_token(user_id, token)
@@ -217,6 +204,28 @@ class User:
         except Exception as e:
             return 528, "{}".format(str(e))
         return 200, "ok"
+    # def logout(self, user_id: str, token: str) -> bool:
+    #     try:
+    #         code, message = self.check_token(user_id, token)
+    #         if code != 200:
+    #             return code, message
+    #
+    #         terminal = "terminal_{}".format(str(time.time()))
+    #         dummy_token = self.jwt_encode(user_id, terminal)
+    #
+    #         # 使用MongoDB的更新操作来更新用户记录
+    #         update_result = self.db.users.update_one(
+    #             {"user_id": user_id},
+    #             {"$set": {"token": dummy_token, "terminal": terminal}}
+    #         )
+    #
+    #         # 检查更新操作的结果
+    #         if update_result.matched_count == 0:
+    #             return 528, "未找到匹配的用户记录"
+    #
+    #     except Exception as e:
+    #         return 530, "{}".format(str(e))
+    #     return 200, "ok"
 
     def unregister(self, user_id: str, password: str) -> (int, str):
         try:
@@ -253,7 +262,7 @@ def login():
     code, message, token = u.login(
         user_id=user_id, password=password, terminal=terminal
     )
-    return jsonify({"message": message, "token": token}), code
+    return jsonify({"message": message, "token": str(token)}), code
 
 
 @app.route("/auth/logout", methods=["POST"])

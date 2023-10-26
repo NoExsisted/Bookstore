@@ -28,7 +28,8 @@ def be_run():
     this_path = os.path.dirname(__file__)
     parent_path = os.path.dirname(this_path)
     log_file = os.path.join(parent_path, "app.log")
-    init_database('locolhost', 27017, 'bookstore')
+
+    init_database('127.0.0.1', 27017, 'bookstore')
 
 
     logging.basicConfig(filename=log_file, level=logging.ERROR)

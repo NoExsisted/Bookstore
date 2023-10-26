@@ -64,7 +64,7 @@ class BookDB:
 
         return books
 
-client_mongodb = MongoClient('localhost', 27017)
+client_mongodb = MongoClient('127.0.0.1', 27017)
 db_mongodb = client_mongodb['bookstore']
 collection_mongodb = db_mongodb['books']
 

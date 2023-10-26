@@ -97,14 +97,14 @@ class Store:
                 "user_id": "user1",
                 "password": "password1",
                 "balance": 100,
-                "token": "",
+                "token": "123456",
                 "terminal": "terminal1"
             },
             {
                 "user_id": "user2",
                 "password": "password2",
                 "balance": 200,
-                "token": "",
+                "token": "123456",
                 "terminal": "terminal2"
             },
             # 添加更多用户数据
@@ -234,7 +234,7 @@ def get_db_client():
 
 
 if __name__ == "__main__":
-    db_host = "localhost"
+    db_host = "127.0.0.1"
     db_port = 27017
     db_name = "bookstore"
 

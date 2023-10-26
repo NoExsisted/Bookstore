@@ -111,28 +111,28 @@
 #             return 530, "{}".format(str(e)), ""
 #         return 200, "ok", token
 #
-#     def logout(self, user_id: str, token: str) -> bool:
-#         try:
-#             code, message = self.check_token(user_id, token)
-#             if code != 200:
-#                 return code, message
-#
-#             terminal = "terminal_{}".format(str(time.time()))
-#             dummy_token = jwt_encode(user_id, terminal)
-#
-#             cursor = self.conn.execute(
-#                 "UPDATE user SET token = ?, terminal = ? WHERE user_id=?",
-#                 (dummy_token, terminal, user_id),
-#             )
-#             if cursor.rowcount == 0:
-#                 return error.error_authorization_fail()
-#
-#             self.conn.commit()
-#         except sqlite.Error as e:
-#             return 528, "{}".format(str(e))
-#         except BaseException as e:
-#             return 530, "{}".format(str(e))
-#         return 200, "ok"
+    # def logout(self, user_id: str, token: str) -> bool:
+    #     try:
+    #         code, message = self.check_token(user_id, token)
+    #         if code != 200:
+    #             return code, message
+    #
+    #         terminal = "terminal_{}".format(str(time.time()))
+    #         dummy_token = jwt_encode(user_id, terminal)
+    #
+    #         cursor = self.conn.execute(
+    #             "UPDATE user SET token = ?, terminal = ? WHERE user_id=?",
+    #             (dummy_token, terminal, user_id),
+    #         )
+    #         if cursor.rowcount == 0:
+    #             return error.error_authorization_fail()
+    #
+    #         self.conn.commit()
+    #     except sqlite.Error as e:
+    #         return 528, "{}".format(str(e))
+    #     except BaseException as e:
+    #         return 530, "{}".format(str(e))
+    #     return 200, "ok"
 #
 #     def unregister(self, user_id: str, password: str) -> (int, str):
 #         try:
@@ -183,6 +183,7 @@ from pymongo import MongoClient
 from be.model import error
 from be.model import db_conn
 # import error
+
 
 class User:
     token_lifetime: int = 3600  # 3600 seconds
@@ -286,19 +287,6 @@ class User:
     #         return 528, "{}".format(str(e)), ""
     #     return 200, "ok", token
 
-    # def logout(self, user_id: str, token: str) -> bool:
-    #     try:
-    #         code, message = self.check_token(user_id, token)
-    #         if code != 200:
-    #             return code, message
-    #
-    #         terminal = "terminal_{}".format(str(time.time()))
-    #         dummy_token = self.jwt_encode(user_id, terminal)
-    #
-    #         self.db.users.update_one({"user_id": user_id}, {"$set": {"token": dummy_token, "terminal": terminal}})
-    #     except Exception as e:
-    #         return 528, "{}".format(str(e))
-    #     return 200, "ok"
     def logout(self, user_id: str, token: str) -> bool:
         try:
             code, message = self.check_token(user_id, token)
@@ -312,6 +300,29 @@ class User:
         except Exception as e:
             return 528, "{}".format(str(e))
         return 200, "ok"
+
+    # def logout(self, user_id: str, token: str) -> bool:
+    #     try:
+    #         code, message = self.check_token(user_id, token)
+    #         if code != 200:
+    #             return code, message
+    #
+    #         terminal = "terminal_{}".format(str(time.time()))
+    #         dummy_token = self.jwt_encode(user_id, terminal)
+    #
+    #         # 使用MongoDB的更新操作来更新用户记录
+    #         update_result = self.db.users.update_one(
+    #             {"user_id": user_id},
+    #             {"$set": {"token": dummy_token, "terminal": terminal}}
+    #         )
+    #
+    #         # 检查更新操作的结果
+    #         if update_result.matched_count == 0:
+    #             return 528, "未找到匹配的用户记录"
+    #
+    #     except Exception as e:
+    #         return 530, "{}".format(str(e))
+    #     return 200, "ok"
 
     def unregister(self, user_id: str, password: str) -> (int, str):
         try:
@@ -353,20 +364,30 @@ class User:
 #
 #
 # user = User()
-
+#
 # # Define user ID, password, and terminal
 # user_id = "user1"
-# password = "password"
-# terminal = "terminal"
+# password = "password1"
+# terminal = "terminal1"
+# token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcjEiLCJ0ZXJtaW5hbCI6InRlcm1pbmFsMSIsInRpbWVzdGFtcCI6MTY5ODI5NDY0NC44Nzk2OTY0fQ.1wBdTl7lckQs2-L_-BpixavBBQRt8m6SpDpcCmfUPhA'
 #
-# login_code, login_message, token = user.login(user_id, password, terminal)
+# # login_code, login_message,token = user.login(user_id, password, terminal)
+# # if login_code == 200:
+# #     print("Login successful")
+# #     print("Token:", token)
+# # else:
+# #     print("Login failed with code:", login_code)
+# #     print("Message:", login_message)
+#
+# login_code, login_message = user.logout(user_id, token)
 # if login_code == 200:
-#     print("Login successful")
+#     print("Logout successful")
 #     print("Token:", token)
 # else:
-#     print("Login failed with code:", login_code)
+#     print("Logout failed with code:", login_code)
 #     print("Message:", login_message)
-# user = User()
-# user_id = "test_user"
-# password = "test_password"
-# code, message = user.unregister(user_id, password)
+#
+# # user = User()
+# # user_id = "test_user"
+# # password = "test_password"
+# # code, message = user.unregister(user_id, password)
