@@ -136,35 +136,18 @@ class Store:
 
     def init_stores_collection(self):
         # 初始化商店集合，并添加初始数据
-        store_data = [
-            {
+        store_data = {
                 "store_id": "store1",
+                'book_id': "Book1",
                 "book_info": "Book Info 1",
-                "stock_level": 100,
-                'id': "Book1",
-                'title': "Book1",
-                'author': "",
-                'publisher': "",
-                'original_title': "",
-                'translator': "",
-                'pub_year': "",
-                'pages': "",
-                'price': "",
-                'binding': "",
-                'isbn': "",
-                'author_intro': "",
-                'book_intro': "",
-                'content': "",
-                'tags': "",
-                'picture': ""
-            },
+                "stock_level": 100
+            }
             # {
             #     "store_id": "store2",
             #     "book_id": "book2",
             #     "book_info": "Book Info 2",
             #     "stock_level": 50
             # },
-        ]
 
         self.stores.insert_many(store_data)
 

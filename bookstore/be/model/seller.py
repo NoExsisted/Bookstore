@@ -1,5 +1,5 @@
 import sqlite3 as sqlite
-
+import json
 from be.model import error
 from be.model import db_conn
 from pymongo import MongoClient
@@ -36,7 +36,7 @@ class Seller(db_conn.DBConn):
             store_entry = {
                 "store_id": store_id,
                 "book_id": book_id,
-                "book_info": book_json_str,
+                "book_info":  json.loads(book_json_str),
                 "stock_level": stock_level
             }
             self.db.stores.insert_one(store_entry)
@@ -63,8 +63,14 @@ class Seller(db_conn.DBConn):
                 (add_stock_level, store_id, book_id),
             )
             self.conn.commit()'''
-            condition = {"store_id": store_id, "book_id": book_id}
-            self.db.stores.update_many(condition, {'$inc': {'$stock_level': +add_stock_level}})
+
+
+            #condition = {"store_id": store_id, "book_id": book_id}
+            self.db.stores.update_one(
+                {"store_id": store_id, "book_id": book_id},
+                {"$inc": {"stock_level": add_stock_level}}
+            )
+            #self.db.stores.update_many(condition, {'$inc': {'stock_level': +add_stock_level}})
         except Exception as e:
             return 528, "{}".format(str(e))
         except BaseException as e:
