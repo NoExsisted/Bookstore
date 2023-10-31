@@ -19,6 +19,7 @@ class Buyer(db_conn.DBConn):
         order_id = ""
         try:
             # 查询用户是否存在，不存在返回错误
+
             user = self.db.users.find_one({"user_id": user_id})
             if user is None:
                 return error.error_non_exist_user_id(user_id) + (order_id,)
@@ -27,28 +28,40 @@ class Buyer(db_conn.DBConn):
 
             store = self.db.stores.find_one({"store_id": store_id})
             if store is None:
-                return error.error_non_exist_user_id(user_id) + (order_id,)
+                return error.error_non_exist_store_id(user_id) + (order_id,)
             #if not self.store_id_exist(store_id):
             #    return error.error_non_exist_store_id(store_id) + (order_id,)
             uid = "{}_{}_{}".format(user_id, store_id, str(uuid.uuid1()))
 
             for book_id, count in id_and_count:
                 result = self.db.stores.find_one({"store_id": store_id, "book_id": book_id})
-                row = self.db.stores.count_documents({"store_id": store_id, "book_id": book_id})
-                if row == 0:
+                if result is None:
                     return error.error_non_exist_book_id(book_id) + (order_id,)
+                #row = self.db.stores.count_documents({"store_id": store_id, "book_id": book_id})
+                #if row == 0:
+                #    return error.error_non_exist_book_id(book_id) + (order_id,)
 
                 stock_level = result["stock_level"]
-                price = result["price"]
+                book_info = result["book_info"]
+                price = book_info["price"]
                 if stock_level < count:
                     return error.error_stock_level_low(book_id) + (order_id,)
-                
-                condition = {"store_id": store_id, "book_id": book_id, "stock_level": {'$gte': count}}
-                row = self.db.stores.count_documents(condition)
-                if row == 0:
+                result = self.db.stores.update_one(
+                    {"store_id": store_id, "book_id": book_id, "stock_level": {"$gte": count}},
+                    {"$inc": {"stock_level": -count}}
+                )
+
+                if result.modified_count == 0:
                     return error.error_stock_level_low(book_id) + (order_id,)
+
+
+
+                #condition = {"store_id": store_id, "book_id": book_id, "stock_level": {'$gte': count}}
+                #row = self.db.stores.count_documents(condition)
+                #if row == 0:
+                #    return error.error_stock_level_low(book_id) + (order_id,)
                 
-                self.db.stores.update_many(condition, {'$inc': {'$stock_level': -1}})
+                #self.db.stores.update_many(condition, {'$inc': {'stock_level': -count}})
 
                 new_order_detail = {
                     "order_id": uid,
@@ -56,7 +69,13 @@ class Buyer(db_conn.DBConn):
                     "count": count,
                     "price": price
                 }
+                new_order = {
+                    "order_id": uid,
+                    "user_id": user_id,
+                    "store_id": store_id
+                }
                 self.db.new_order_details.insert_one(new_order_detail)
+                self.db.new_orders.insert_one(new_order)
                 order_id = uid
         except Exception as e:
             logging.info("528, {}".format(str(e)))
@@ -67,9 +86,12 @@ class Buyer(db_conn.DBConn):
     def payment(self, user_id: str, password: str, order_id: str) -> (int, str):
         try:
             result = self.db.new_orders.find_one({"order_id": order_id})
-            row = self.db.new_orders.count_documents({"order_id": order_id})
-            if row == 0:
+            if result is None:
                 return error.error_invalid_order_id(order_id)
+
+            #row = self.db.new_orders.count_documents({"order_id": order_id})
+            #if row == 0:
+            #    return error.error_invalid_order_id(order_id)
             
             order_id = result["order_id"]
             buyer_id = result["user_id"]
@@ -79,18 +101,24 @@ class Buyer(db_conn.DBConn):
                 return error.error_authorization_fail()
             
             result = self.db.users.find_one({"user_id": buyer_id})
-            row = self.db.users.count_documents({"user_id": buyer_id})
-            if row == 0:
+            if result is None:
                 return error.error_non_exist_user_id(buyer_id)
+
+            #row = self.db.users.count_documents({"user_id": buyer_id})
+            #if row == 0:
+            #    return error.error_non_exist_user_id(buyer_id)
             
             balance = result["balance"]
             if password != result["password"]:
                 return error.error_authorization_fail()
 
             result = self.db.user_stores.find_one({"store_id": store_id})
-            row = self.db.user_stores.count_documents({"store_id": store_id})
-            if row == 0:
+            if result is None:
                 return error.error_non_exist_store_id(store_id)
+
+            #row = self.db.user_stores.count_documents({"store_id": store_id})
+            #if row == 0:
+            #    return error.error_non_exist_store_id(store_id)
             
             seller_id = result["user_id"]
             if not self.user_id_exist(seller_id):
