@@ -181,8 +181,7 @@ import time
 import logging
 from pymongo import MongoClient
 from be.model import error
-from be.model import db_conn
-# import error
+# from be.model import db_conn
 
 
 class User:

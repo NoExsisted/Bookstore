@@ -10,6 +10,7 @@ from be.view import auth
 from be.view import seller
 from be.view import buyer
 from be.model.store import init_database
+from be.view import search
 from flask import Flask
 
 
@@ -48,7 +49,7 @@ def be_run():
 
     # app.register_blueprint(bp_shutdown)
     app.register_blueprint(auth.bp_auth)
-    # app.register_blueprint(search.bp_search)
+    app.register_blueprint(search.bp_search)
     app.register_blueprint(seller.bp_seller)
     app.register_blueprint(buyer.bp_buyer)
 
