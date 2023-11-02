@@ -75,7 +75,7 @@ class BookDB:
             book.pages = row['pages']
             book.price = row['price']
 
-            #book.currency_unit = row[9]
+            book.currency_unit = row["currency_unit"]
             book.binding = row['binding']
             book.isbn = row['isbn']
             book.author_intro = row['author_intro']
@@ -85,14 +85,14 @@ class BookDB:
 
             picture = row['picture']
 
-            for tag in tags:#for tag in tags.split("\n"):
+            '''for tag in tags:#for tag in tags.split("\n"):
                 if tag.strip() != "":
-                    book.tags.append(tag)
-            for i in range(0, random.randint(0, 9)):
+                    book.tags.append(tag)'''
+            '''for i in range(0, random.randint(0, 9)):
                 if len(picture) > 0:
                     picture = picture[0].encode()
                     encode_str = base64.b64encode(picture).decode("utf-8")
-                    book.pictures.append(encode_str)
+                    book.pictures.append(encode_str)'''
             books.append(book)
             # print(tags.decode('utf-8'))
 

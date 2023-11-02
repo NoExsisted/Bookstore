@@ -130,6 +130,7 @@ class SearchBooks:
         # 构建查询条件
         query = {}
         search_criteria = []
+
         if 'title' in search_scopes:
             search_criteria.append({'title': {'$regex': search_query, '$options': 'i'}})
 
@@ -145,7 +146,6 @@ class SearchBooks:
         if search_criteria:
             query['$or'] = search_criteria
 
-
         # 获取总结果数
         total_results = self.db.books.count_documents(query)
 
@@ -156,7 +156,6 @@ class SearchBooks:
             return 404, "Not Found"
         else:
             return 200, {"titles": book_titles, "num": total_results}
-
 
     def get_stores(self, store_name, search_query, search_scopes):
         # 初始化结果列表
@@ -202,6 +201,3 @@ class SearchBooks:
             return 404, "Not Found"
         else:
             return 200, {"titles": book_titles, "num": total_results}
-
-s = SearchBooks()
-print(s.get_stores('store111', "三毛", ["title"]))

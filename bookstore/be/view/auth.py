@@ -21,7 +21,7 @@ def logout():
     token: str = request.headers.get("token")
     u = user.User()
     code, message = u.logout(user_id=user_id, token=token)
-    return jsonify({"message": message}), code
+    return jsonify({"message": str(message)}), code
 
 
 @bp_auth.route("/register", methods=["POST"])

@@ -181,7 +181,7 @@ import time
 import logging
 from pymongo import MongoClient
 from be.model import error
-# from be.model import db_conn
+from be.model import db_conn
 
 
 class User:
@@ -203,7 +203,7 @@ class User:
                 if self.token_lifetime > now - ts >= 0:
                     return True
         except jwt.exceptions.InvalidSignatureError as e:
-            logging.error(str(e))
+            # logging.error(str(e))
             return False
 
     @staticmethod
@@ -349,6 +349,42 @@ class User:
         return 200, "ok"
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# user = User()
+#
+# # Define user ID, password, and terminal
+# user_id = "user1"
+# password = "password1"
+# terminal = "terminal1"
+#
+# login_code, login_message, token = user.login(user_id, password, terminal)
+# if login_code == 200:
+#     print("Login successful")
+#     print("Token:", token)
+# else:
+#     print("Login failed with code:", login_code)
+#     print("Message:", login_message)
+#
+# logout_code, logout_message = user.logout(user_id, token)
+# if logout_code == 200:
+#     print("Logout successful")
+#     print("Token:", token)
+# else:
+#     print("Logout failed with code:", logout_code)
+#     print("Message:", logout_message)
 
 # user = User()
 # # 指定用户的用户名和密码
