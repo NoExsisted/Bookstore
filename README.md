@@ -85,3 +85,7 @@ bookstore
   git push #更新仓库
   git pull origin main #下拉仓库
   ```
+## 使用者须知
+- 先在本地链接MongoDB数据库
+- 运行book_set.py
+- 再运行bash script/test.sh（注意，需要在根目录bookstore中打开）
