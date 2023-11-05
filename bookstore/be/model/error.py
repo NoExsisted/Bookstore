@@ -1,3 +1,5 @@
+import numpy
+
 error_code = {
     401: "authorization fail.",
     511: "non exist user id {}",
@@ -9,18 +11,13 @@ error_code = {
     517: "stock level low, book id {}",
     518: "invalid order id {}",
     519: "not sufficient funds, order id {}",
-    520: "",
-    521: "",
-    522: "",
-    523: "",
-    524: "",
-    525: "",
-    526: "",
-    527: "",
-    528: "",
+    520: "book has not paid yet",
+    521: "book has sent",
+    522: "book has not sent",
+    523: "book has received",
 }
 
-
+numpy
 def error_non_exist_user_id(user_id):
     return 511, error_code[511].format(user_id)
 
@@ -55,6 +52,22 @@ def error_invalid_order_id(order_id):
 
 def error_not_sufficient_funds(order_id):
     return 519, error_code[518].format(order_id)
+
+
+def error_not_paid_book():
+    return 520, error_code[520]
+
+
+def error_book_has_sent():
+    return 521, error_code[521]
+
+
+def error_book_has_not_sent():
+    return 522, error_code[522]
+
+
+def error_book_has_received():
+    return 523, error_code[523]
 
 
 def error_authorization_fail():

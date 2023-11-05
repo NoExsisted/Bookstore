@@ -48,3 +48,41 @@ class Buyer:
         headers = {"token": self.token}
         r = requests.post(url, headers=headers, json=json)
         return r.status_code
+
+    # def receive_books(self, user_id: str, order_id: str) -> int:
+    #     json = {
+    #         "user_id": user_id,
+    #         "order_id": order_id,
+    #     }
+    #     url = urljoin(self.url_prefix, "receive_books")
+    #     headers = {"token": self.token}
+    #     r = requests.post(url, headers=headers, json=json)
+    #     return r.status_code
+    #
+    # def new_order_cancel(self, user_id: str, order_id: str):
+    #     json = {
+    #         "user_id": user_id,
+    #         "order_id": order_id,
+    #     }
+    #     url = urljoin(self.url_prefix, "new_order_cancel")
+    #     headers = {"token": self.token}
+    #     r = requests.post(url, headers=headers, json=json)
+    #     return r.status_code
+    #
+    # def check_order(self, user_id: str):
+    #     json = {
+    #         "user_id": user_id
+    #     }
+    #     url = urljoin(self.url_prefix, "check_order")
+    #     headers = {"token": self.token}
+    #     r = requests.post(url, headers=headers, json=json)
+    #     return r.status_code
+    #
+    # def check_order_status(self) -> int:
+    #     json = {}
+    #     url = urljoin(self.url_prefix, "check_order_status")
+    #     headers = {"token": self.token}
+    #     r = requests.post(url, headers=headers, json=json)
+    #     return r.status_code
+
+

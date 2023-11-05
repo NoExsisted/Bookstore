@@ -33,7 +33,7 @@ for i, record in enumerate(book_records):
         "book_intro": record[13],
         "content": record[14],
         "tags": record[15],
-        "picture": record[16]
+        "picture": ""
         # 添加其他字段...
     }
     mongo_collection.insert_one(book_data)

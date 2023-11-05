@@ -31,7 +31,7 @@ class Book:
 
 class BookDB:
     def __init__(self, large: bool = False):
-        parent_path = os.path.dirname(os.path.dirname(__file__))
+        #parent_path = os.path.dirname(os.path.dirname(__file__))
         #self.db_s = os.path.join(parent_path, "data/bookname.db")
         #self.db_l = os.path.join(parent_path, "data/book_lx.db")
         self.client = MongoClient('localhost', 27017)
@@ -51,18 +51,7 @@ class BookDB:
 
     def get_book_info(self, start, size) -> [Book]:
         books = []
-        #conn = sqlite.connect(self.book_db)
-        result = self.db.books.find().sort([("id", 1)]).skip(size).limit(size)
-        #cursor = conn.execute(
-        #    "SELECT id, title, author, "
-        #    "publisher, original_title, "
-        #    "translator, pub_year, pages, "
-        #    "price, currency_unit, binding, "
-        #    "isbn, author_intro, book_intro, "
-        #    "content, tags, picture FROM book ORDER BY id "
-        #    "LIMIT ? OFFSET ?",
-        #    (size, start),
-        #)
+        result = self.db.books.find().sort([("id", 1)]).skip(start).limit(size)
         for row in result:
             book = Book()
             book.id = row['id']
@@ -85,20 +74,15 @@ class BookDB:
 
             picture = row['picture']
 
-            '''for tag in tags:#for tag in tags.split("\n"):
+            for tag in tags:#for tag in tags.split("\n"):
                 if tag.strip() != "":
-                    book.tags.append(tag)'''
-            '''for i in range(0, random.randint(0, 9)):
+                    book.tags.append(tag)
+            for i in range(0, random.randint(0, 9)):
                 if len(picture) > 0:
                     picture = picture[0].encode()
                     encode_str = base64.b64encode(picture).decode("utf-8")
-                    book.pictures.append(encode_str)'''
+                    book.pictures.append(encode_str)
             books.append(book)
-            # print(tags.decode('utf-8'))
-
-            # print(book.tags, len(book.picture))
-            # print(book)
-            # print(tags)
-
+            
         return books
 

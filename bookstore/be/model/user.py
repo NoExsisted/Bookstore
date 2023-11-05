@@ -182,6 +182,7 @@ import logging
 from pymongo import MongoClient
 from be.model import error
 from be.model import db_conn
+# import error
 
 
 class User:
@@ -203,7 +204,7 @@ class User:
                 if self.token_lifetime > now - ts >= 0:
                     return True
         except jwt.exceptions.InvalidSignatureError as e:
-            # logging.error(str(e))
+            logging.error(str(e))
             return False
 
     @staticmethod

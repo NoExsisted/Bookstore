@@ -38,7 +38,6 @@
 
 
 from pymongo import MongoClient
-from be.model import store
 
 
 class DBConn:
