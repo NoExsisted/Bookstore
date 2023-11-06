@@ -37,7 +37,7 @@ for i, record in enumerate(book_records):
         # 添加其他字段...
     }
     mongo_collection.insert_one(book_data)
-    if i == 200:
+    if i == 2000:
         break
 
 # 关闭数据库连接
